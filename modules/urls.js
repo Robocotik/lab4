@@ -7,11 +7,11 @@ class Urls {
   }
 
   getUserInfo(userId) {
-    return `${this.url}/users.get?user_ids=${userId}&fields=photo_400_orig&${this.commonInfo}`;
+    return `${this.url}/users.get?user_ids=${userId}&fields=photo_400_orig,bdate,city,about,activities,education,followers_count,last_seen,movies,music,universities&${this.commonInfo}`;
   }
 
-  getGroupMembers(groupId) {
-    return `${this.url}/groups.getMembers?group_id=${groupId}&fields=photo_400_orig&count=10&${this.commonInfo}`;
+  getGroupMembers(groupId, count) {
+    return `${this.url}/groups.getMembers?group_id=${groupId}&fields=photo_400_orig,online&count=${count}&${this.commonInfo}`;
   }
 }
 

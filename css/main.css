@@ -32,21 +32,41 @@
   overflow-y: scroll;
   top: 0;
   left: 0;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-evenly;
   content: '';
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(8px);
   height: 100%;
-  /* padding-block: 1rem; */
+  padding-block: 1rem;
   background-attachment: fixed;
   width: 100%;
 }
 
 .list {
-  margin-block: 2rem;
   gap: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: fit-content;
+  width: fit-content;
+  height: 80dvh;
+  max-height: 80dvh;
+}
+
+.anim {
+  animation: infinite 2s blinking;
+}
+
+@keyframes blinking {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  45%,
+  55% {
+    opacity: 0;
+  }
 }

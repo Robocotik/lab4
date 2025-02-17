@@ -8,7 +8,7 @@ export class GroupCard {
             <a href="...">
                 <img src='${data.photo}' class='img-fluid rounded-circle ratio-1x1' style='width: 8rem;' alt='group' />
             </a>
-            <p class='fs-5 fw-bold circle-underline'>${data.label}</p>
+            <p class='fs-5 fw-bold'>${data.label}</p>
         </div>
         `;
   };

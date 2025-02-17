@@ -20,6 +20,7 @@ class Ajax {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
         const data = JSON.parse(xhr.response);
+        console.log(data);
         callback(data);
       }
     };
