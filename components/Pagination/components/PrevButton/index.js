@@ -4,7 +4,7 @@ export class PrevButton {
   }
   getHTML = () => {
     return `
-            <button id = 'btn_prev' class = 'pag_item bg-transparent rounded-3 px-3 py-1 border-white'><</button>
+            <button id = 'btn_prev' class = 'pag_item bg-transparent rounded-3 px-3 h-100 border-white'><</button>
         `;
   };
   PaginationOnClick = (update, count, offset) => {

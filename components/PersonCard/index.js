@@ -17,7 +17,7 @@ export class PersonCard {
     return `
         <button id='${
           data.id
-        }' class='d-flex flex-column  position-relative bg-transparent gap-4 border border-2 rounded-5 px-3 py-2 shadow-lg' style='width: fit-content;'>
+        }' class='person-card d-flex flex-column  position-relative bg-transparent gap-4 border border-2 rounded-5 px-3 py-2' style='width: fit-content;'>
             <img src='${data.photo_400_orig}'id=${
       data.id
     } class='person_item img-fluid rounded-circle ratio-1x1' style='width: 8rem;' alt='я' />

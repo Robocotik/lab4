@@ -4,7 +4,7 @@ export class NextButton {
   }
   getHTML = () => {
     return `
-            <button id = 'btn_next' class = 'pag_item bg-transparent rounded-3 px-3 py-1 border-white'>></button>
+            <button id = 'btn_next' class = 'pag_item bg-transparent rounded-3 px-3 h-100 border-white'>></button>
         `;
   };
 

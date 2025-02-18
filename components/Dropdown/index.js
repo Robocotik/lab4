@@ -30,8 +30,8 @@ export class Dropdown {
 
   getHTML = () => {
     return `
-        <div class="dropdown-center">
-            <button class="btn btn-secondary bg-transparent text-black border-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <div class="dropdown-center h-100">
+            <button class="btn h-100 btn-secondary bg-transparent text-black border-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 ${this.value}
             </button>
             <ul class="dropdown-menu">

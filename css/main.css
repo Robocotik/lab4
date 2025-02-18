@@ -56,6 +56,41 @@
   max-height: 80dvh;
 }
 
+.list-container {
+  overflow-y: scroll;
+  padding: 0.5rem;
+}
+
+.list-container::-webkit-scrollbar {
+  display: none;
+}
+
+.person-card {
+  transition: scale, box-shadowing ease-in 0.2s;
+}
+
+.person-card:hover {
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.416);
+  scale: 1.05;
+}
+
+.pag_item {
+  transition: scale, box-shadowing ease-in 0.2s;
+}
+
+.pag_item:hover {
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.416);
+  scale: 1.05;
+}
+
+.group-card {
+  transition: scale, box-shadowing ease-in 0.2s;
+}
+
+.group-card:hover {
+  scale: 1.05;
+}
+
 .anim {
   animation: infinite 2s blinking;
 }
@@ -69,4 +104,22 @@
   55% {
     opacity: 0;
   }
+}
+
+.burger-menu {
+  transition: scale, box-shadowing ease-in 0.2s;
+}
+
+.burger-menu:hover {
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.416);
+  scale: 1.05;
+}
+
+.burger-item {
+  transition: scale, box-shadowing ease-in 1s;
+}
+
+.burger-item:hover {
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.416);
+  scale: 1.05;
 }
