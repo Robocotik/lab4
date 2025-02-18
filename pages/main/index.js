@@ -6,11 +6,13 @@ import {GroupCard} from '../../components/GroupCard/index.js';
 import {DefaultUsecaase} from '../../components/GroupCard/GroupCard.usecase.js';
 import {PersonPage} from '../person/index.js';
 import {Dropdown} from '../../components/Dropdown/index.js';
-
+import {NextButton} from '../../components/Pagination/components/NextButton/index.js';
+import {PrevButton} from '../../components/Pagination/components/PrevButton/index.js';
 export class MainPage {
   constructor(parent) {
     this.parent = parent;
     this.usersToShow = 20;
+    this.offset = 0;
   }
   get listRoot() {
     return document.getElementById('list-root');
@@ -33,6 +35,9 @@ export class MainPage {
   get dropdownRoot() {
     return document.getElementById('dropdown');
   }
+  get btnContainerRoot() {
+    return document.getElementById('btn_container');
+  }
 
   renderData(items) {
     items.forEach((item, index) => {
@@ -44,8 +49,8 @@ export class MainPage {
     this.addOnClick();
   }
 
-  getData = count => {
-    ajax.get(urls.getGroupMembers(groupId, count), data => {
+  getData = (count, offset) => {
+    ajax.get(urls.getGroupMembers(groupId, count, offset), data => {
       this.listRoot.innerHTML = '';
       this.listRootCol2.innerHTML = '';
       this.renderData(data.response.items);
@@ -71,13 +76,14 @@ export class MainPage {
         <div id='main-page' class="main w-100 overflow-auto  rounded-5 border border-2 ">
           <div id='blur' class = 'blur'>
             <div class='d-flex gap-3'>
-            
             <div class = 'list' id="list-root"> </div>
             <div class = 'list mt-5' id="list-root-col2"> </div>
           </div>
-          <div id='dropdown'> </div>
+          <div id='dropdown' class = 'd-flex gap-3 justify-content-center align-items-start'>
+            <div id = 'btn_container'> </div>
           </div>
-        <div/>
+          </div>
+        </div>
       </div>
             
         `;
@@ -87,15 +93,16 @@ export class MainPage {
     this.parent.innerHTML = '';
     const html = this.getHTML();
     this.parent.insertAdjacentHTML('beforeend', html);
+    const groupCard = new GroupCard(this.blurRoot);
+
     const dropdown = new Dropdown(
       this.dropdownRoot,
       this.usersToShow,
+      this.offset,
       this.getData,
     );
-    dropdown.render();
-    // this.getData(this.usersToShow);
 
-    const groupCard = new GroupCard(this.blurRoot);
+    dropdown.render();
     groupCard.render(DefaultUsecaase);
   }
 }

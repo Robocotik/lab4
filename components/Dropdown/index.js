@@ -1,9 +1,11 @@
+import {NextButton} from '../Pagination/components/NextButton/index.js';
+import {PrevButton} from '../Pagination/components/PrevButton/index.js';
 export class Dropdown {
-  constructor(parent, value, callback) {
+  constructor(parent, value, offset, callback) {
     this.parent = parent;
     this.value = value;
-    this.phrase = value;
     this.callback = callback;
+    this.offset = offset;
   }
 
   onClick = e => {
@@ -17,9 +19,9 @@ export class Dropdown {
       e.target.classList.add('active');
 
       // Обновляем значение this.phrase и this.value
-      this.phrase = e.target.textContent;
-      this.value = e.target.textContent;
-      console.log('Выбранное значение:', this.phrase); // Для проверки
+      console.log(typeof this.value);
+      this.value = Number(e.target.textContent);
+      console.log('Выбранное значение:', this.value, typeof this.value); // Для проверки
 
       // Перерендер компонента
       this.render();
@@ -29,18 +31,18 @@ export class Dropdown {
   getHTML = () => {
     return `
         <div class="dropdown-center">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                ${this.phrase}
+            <button class="btn btn-secondary bg-transparent text-black border-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                ${this.value}
             </button>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item ${
-                  this.phrase === '20' ? 'active' : ''
+                  this.value === '20' ? 'active' : ''
                 }" href="#">20</a></li>
                 <li><a class="dropdown-item ${
-                  this.phrase === '60' ? 'active' : ''
+                  this.value === '60' ? 'active' : ''
                 }" href="#">60</a></li>
                 <li><a class="dropdown-item ${
-                  this.phrase === '100' ? 'active' : ''
+                  this.value === '100' ? 'active' : ''
                 }" href="#">100</a></li>
             </ul>
         </div>
@@ -49,8 +51,15 @@ export class Dropdown {
 
   render() {
     // Удаляем старый HTML перед рендерингом нового
+
+    const prevbtn = new PrevButton(this.parent);
+    const nextBtn = new NextButton(this.parent);
+
     this.parent.innerHTML = '';
     this.parent.insertAdjacentHTML('beforeend', this.getHTML());
+
+    prevbtn.render(this.callback, this.value, this.offset);
+    nextBtn.render(this.callback, this.value, this.offset);
 
     // Добавляем обработчик события клика
     const dropdownItems = this.parent.querySelectorAll('.dropdown-item');
@@ -59,8 +68,20 @@ export class Dropdown {
     });
 
     // Вызываем коллбэк с текущим значением
-    
-      this.callback(this.value);
-    
+    console.log(
+      'drop before',
+      this.value,
+      typeof this.value,
+      this.offset,
+      typeof this.offset,
+    );
+    this.callback(this.value, this.offset);
+    console.log(
+      'drop after',
+      this.value,
+      typeof this.value,
+      this.offset,
+      typeof this.offset,
+    );
   }
 }
