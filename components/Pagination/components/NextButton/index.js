@@ -8,19 +8,18 @@ export class NextButton {
         `;
   };
 
-  PaginationOnClick = (update, count, offset) => {
+  PaginationOnClick = (update, count, offset, onlyFriends) => {
     const next = document.querySelector('#btn_next');
     next.addEventListener('click', () => {
       offset += count;
       console.log(count, typeof count, offset, typeof offset);
-      update(count, offset);
+      update(count, offset, onlyFriends ? 'friends' : '');
     });
   };
 
-
-  render(update, count, offset) {
+  render(update, count, offset, onlyFriends) {
     const html = this.getHTML();
     this.parent.insertAdjacentHTML('beforeend', html);
-    this.PaginationOnClick(update, count, offset);
+    this.PaginationOnClick(update, count, offset, onlyFriends);
   }
 }

@@ -1,9 +1,10 @@
 import {NextButton} from '../Pagination/components/NextButton/index.js';
 import {PrevButton} from '../Pagination/components/PrevButton/index.js';
 export class Dropdown {
-  constructor(parent, value, offset, callback) {
+  constructor(parent, value, offset, onlyFriends, callback) {
     this.parent = parent;
     this.value = value;
+    this.onlyFriends = onlyFriends;
     this.callback = callback;
     this.offset = offset;
   }
@@ -15,14 +16,9 @@ export class Dropdown {
       const items = this.parent.querySelectorAll('.dropdown-item');
       items.forEach(item => item.classList.remove('active'));
 
-      // Добавляем класс active к выбранному элементу
       e.target.classList.add('active');
 
-      // Обновляем значение this.phrase и this.value
-      console.log(typeof this.value);
       this.value = Number(e.target.textContent);
-      console.log('Выбранное значение:', this.value, typeof this.value); // Для проверки
-
       // Перерендер компонента
       this.render();
     }
@@ -50,38 +46,22 @@ export class Dropdown {
   };
 
   render() {
-    // Удаляем старый HTML перед рендерингом нового
-
+  
     const prevbtn = new PrevButton(this.parent);
     const nextBtn = new NextButton(this.parent);
 
     this.parent.innerHTML = '';
     this.parent.insertAdjacentHTML('beforeend', this.getHTML());
 
-    prevbtn.render(this.callback, this.value, this.offset);
-    nextBtn.render(this.callback, this.value, this.offset);
+    prevbtn.render(this.callback, this.value, this.offset, this.onlyFriends);
+    nextBtn.render(this.callback, this.value, this.offset, this.onlyFriends);
 
-    // Добавляем обработчик события клика
     const dropdownItems = this.parent.querySelectorAll('.dropdown-item');
     dropdownItems.forEach(item => {
       item.addEventListener('click', this.onClick);
     });
 
-    // Вызываем коллбэк с текущим значением
-    console.log(
-      'drop before',
-      this.value,
-      typeof this.value,
-      this.offset,
-      typeof this.offset,
-    );
-    this.callback(this.value, this.offset);
-    console.log(
-      'drop after',
-      this.value,
-      typeof this.value,
-      this.offset,
-      typeof this.offset,
-    );
+    this.callback(this.value, this.offset, this.onlyFriends ? 'friends' : '');
+
   }
 }

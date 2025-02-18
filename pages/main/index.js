@@ -7,11 +7,13 @@ import {DefaultUsecaase} from '../../components/GroupCard/GroupCard.usecase.js';
 import {PersonPage} from '../person/index.js';
 import {Dropdown} from '../../components/Dropdown/index.js';
 import BurgerMenu from '../../src/icons/BurgerMenu.js';
+import {CheckBox} from '../../components/CheckBox/index.js';
 export class MainPage {
   constructor(parent) {
     this.parent = parent;
     this.usersToShow = 20;
     this.offset = 0;
+    this.onlyFriends = true;
   }
   get listRoot() {
     return document.getElementById('list-root');
@@ -34,8 +36,8 @@ export class MainPage {
   get dropdownRoot() {
     return document.getElementById('dropdown');
   }
-  get btnContainerRoot() {
-    return document.getElementById('btn_container');
+  get checkRoot() {
+    return document.getElementById('checkbox');
   }
 
   renderData(items) {
@@ -48,12 +50,15 @@ export class MainPage {
     this.addOnClick();
   }
 
-  getData = (count, offset) => {
-    ajax.get(urls.getGroupMembers(groupId, count, offset), data => {
-      this.listRoot.innerHTML = '';
-      this.listRootCol2.innerHTML = '';
-      this.renderData(data.response.items);
-    });
+  getData = (count, offset, onlyFriends) => {
+    ajax.get(
+      urls.getGroupMembers(groupId, count, offset, onlyFriends),
+      data => {
+        this.listRoot.innerHTML = '';
+        this.listRootCol2.innerHTML = '';
+        this.renderData(data.response.items);
+      },
+    );
   };
 
   onClick = e => {
@@ -102,8 +107,9 @@ export class MainPage {
             <div class = 'list' id="list-root"> </div>
             <div class = 'list mt-5' id="list-root-col2"> </div>
           </div>
-          <div id='dropdown' class = 'd-flex gap-3 justify-content-center align-items-start' style='height: 3rem;'>
-            <div id = 'btn_container'> </div>
+          <div class = 'd-flex flex-column gap-3 justify-content-start align-items-center' style='height: 3rem;'>
+            <div id='dropdown' class = 'd-flex gap-3 justify-content-center align-items-center' > </div>
+            <div id='checkbox'> </div>
           </div>
           </div>
         </div>
@@ -117,15 +123,17 @@ export class MainPage {
     const html = this.getHTML();
     this.parent.insertAdjacentHTML('beforeend', html);
     const groupCard = new GroupCard(this.blurRoot);
-
+    const checkBox = new CheckBox(this.checkRoot, this.getData, this.usersToShow, this.offset, this.onlyFriends);
     const dropdown = new Dropdown(
       this.dropdownRoot,
       this.usersToShow,
       this.offset,
+      this.onlyFriends,
       this.getData,
     );
 
     dropdown.render();
+    checkBox.render();
     groupCard.render(DefaultUsecaase);
   }
 }
