@@ -10,6 +10,7 @@ export class PrevButton {
   PaginationOnClick = (update, count, offset, onlyFriends) => {
     const prev = document.querySelector('#btn_prev');
     prev.addEventListener('click', () => {
+      console.log('preeev', offset, count);
       offset = offset - count >= 0 ? offset - count : 0;
       console.log(count, typeof count, offset, typeof offset);
       update(count, offset, onlyFriends ? 'friends' : '');
@@ -17,6 +18,7 @@ export class PrevButton {
   };
 
   render(update, count, offset, onlyFriends) {
+    console.log('PREV BUTTON UPDATED');
     const html = this.getHTML();
     this.parent.insertAdjacentHTML('afterbegin', html);
     this.PaginationOnClick(update, count, offset, onlyFriends);

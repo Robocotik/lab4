@@ -1,6 +1,7 @@
 export class NextButton {
-  constructor(parent) {
+  constructor(parent, maxCount) {
     this.parent = parent;
+    this.maxCount = maxCount;
   }
   getHTML = () => {
     return `
@@ -11,13 +12,14 @@ export class NextButton {
   PaginationOnClick = (update, count, offset, onlyFriends) => {
     const next = document.querySelector('#btn_next');
     next.addEventListener('click', () => {
-      offset += count;
+      offset = this.maxCount - offset >= 0 ? offset + count : offset;
       console.log(count, typeof count, offset, typeof offset);
       update(count, offset, onlyFriends ? 'friends' : '');
     });
   };
 
   render(update, count, offset, onlyFriends) {
+    console.log('NEXT BUTTON UPDATED');
     const html = this.getHTML();
     this.parent.insertAdjacentHTML('beforeend', html);
     this.PaginationOnClick(update, count, offset, onlyFriends);

@@ -1,12 +1,13 @@
 import {NextButton} from '../Pagination/components/NextButton/index.js';
 import {PrevButton} from '../Pagination/components/PrevButton/index.js';
 export class Dropdown {
-  constructor(parent, value, offset, onlyFriends, callback) {
+  constructor(parent, value, offset, onlyFriends, callback, maxCount) {
     this.parent = parent;
     this.value = value;
     this.onlyFriends = onlyFriends;
     this.callback = callback;
     this.offset = offset;
+    this.maxCount = maxCount;
   }
 
   onClick = e => {
@@ -46,12 +47,12 @@ export class Dropdown {
   };
 
   render() {
-  
-    const prevbtn = new PrevButton(this.parent);
-    const nextBtn = new NextButton(this.parent);
-
+    console.log('DROPDOWN UPDATED');
     this.parent.innerHTML = '';
     this.parent.insertAdjacentHTML('beforeend', this.getHTML());
+
+    const prevbtn = new PrevButton(this.parent);
+    const nextBtn = new NextButton(this.parent, this.maxCount);
 
     prevbtn.render(this.callback, this.value, this.offset, this.onlyFriends);
     nextBtn.render(this.callback, this.value, this.offset, this.onlyFriends);

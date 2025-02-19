@@ -1,10 +1,12 @@
 export class CheckBox {
-  constructor(parent, callback, count, offset, selected) {
+  constructor(parent, callback, count, offset, selected, maxCount, updateContainer) {
     this.parent = parent;
     this.selected = selected;
     this.callback = callback;
     this.count = count;
     this.offset = offset;
+    this.maxCount = maxCount;
+    this.updateContainer = updateContainer;
   }
 
   addOnClick = () => {
@@ -12,6 +14,7 @@ export class CheckBox {
     check.addEventListener('click', () => {
       this.selected = !this.selected;
       this.callback(this.count, this.offset, this.selected? 'friends': '');
+      this.updateContainer(this.callback, this.count, this.offset, this.selected);
       console.log(this.count, this.offset ,this.selected);
     })
   } 
@@ -28,6 +31,7 @@ export class CheckBox {
   };
 
   render() {
+    console.log('CHECKBOX UPDATED');
     const html = this.getHTML();
     this.parent.insertAdjacentHTML('beforeend', html);
     this.addOnClick();

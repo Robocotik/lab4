@@ -11,9 +11,12 @@ import {CheckBox} from '../../components/CheckBox/index.js';
 export class MainPage {
   constructor(parent) {
     this.parent = parent;
-    this.usersToShow = 20;
-    this.offset = 0;
-    this.onlyFriends = true;
+    this.data = {
+      usersToShow: 20,
+      offset: 0,
+      onlyFriends: true,
+      maxCountUsers: 20,
+    };
   }
   get listRoot() {
     return document.getElementById('list-root');
@@ -56,6 +59,7 @@ export class MainPage {
       data => {
         this.listRoot.innerHTML = '';
         this.listRootCol2.innerHTML = '';
+        this.maxCountUsers = data.response.count;
         this.renderData(data.response.items);
       },
     );
@@ -73,6 +77,34 @@ export class MainPage {
       item.addEventListener('click', e => this.onClick(e));
     });
   };
+
+  updateDynamicContainer(callback, count, offset, onlyFriends, maxCount) {
+    // Очищаем старое содержимое контейнера
+    this.dropdownRoot.innerHTML = '';
+    this.checkRoot.innerHTML = '';
+    // Создаем новые компоненты с новыми данными
+    const checkBox = new CheckBox(
+      this.checkRoot,
+      callback,
+      count,
+      offset,
+      onlyFriends,
+      maxCount,
+      this.updateDynamicContainer,
+    );
+    const dropdown = new Dropdown(
+      this.dropdownRoot,
+      callback,
+      
+      
+    );
+
+    // Обновляем данные в компонентах, если это необходимо
+    // Рендерим новые компоненты
+    checkBox.render();
+    dropdown.render();
+    alert('Контейнер обновлен');
+  }
 
   getMenu = () => {
     return `
@@ -107,7 +139,7 @@ export class MainPage {
             <div class = 'list' id="list-root"> </div>
             <div class = 'list mt-5' id="list-root-col2"> </div>
           </div>
-          <div class = 'd-flex flex-column gap-3 justify-content-start align-items-center' style='height: 3rem;'>
+          <div id='dynamic' class = 'd-flex flex-column gap-3 justify-content-start align-items-center' style='height: 3rem;'>
             <div id='dropdown' class = 'd-flex gap-3 justify-content-center align-items-center' > </div>
             <div id='checkbox'> </div>
           </div>
@@ -123,17 +155,13 @@ export class MainPage {
     const html = this.getHTML();
     this.parent.insertAdjacentHTML('beforeend', html);
     const groupCard = new GroupCard(this.blurRoot);
-    const checkBox = new CheckBox(this.checkRoot, this.getData, this.usersToShow, this.offset, this.onlyFriends);
-    const dropdown = new Dropdown(
-      this.dropdownRoot,
+    this.updateDynamicContainer(
+      this.getData,
       this.usersToShow,
       this.offset,
       this.onlyFriends,
-      this.getData,
+      this.maxCountUsers,
     );
-
-    dropdown.render();
-    checkBox.render();
     groupCard.render(DefaultUsecaase);
   }
 }
