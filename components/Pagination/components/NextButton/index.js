@@ -1,7 +1,6 @@
 export class NextButton {
-  constructor(parent, maxCount) {
+  constructor(parent) {
     this.parent = parent;
-    this.maxCount = maxCount;
   }
   getHTML = () => {
     return `
@@ -9,19 +8,28 @@ export class NextButton {
         `;
   };
 
-  PaginationOnClick = (update, count, offset, onlyFriends) => {
+  PaginationOnClick = (update, data) => {
     const next = document.querySelector('#btn_next');
     next.addEventListener('click', () => {
-      offset = this.maxCount - offset >= 0 ? offset + count : offset;
-      console.log(count, typeof count, offset, typeof offset);
-      update(count, offset, onlyFriends ? 'friends' : '');
+      data.offset =
+        data.maxCountUsers - data.offset - data.usersToShow >= 0
+          ? data.offset + data.usersToShow
+          : data.offset;
+      console.log(
+        'locally, ',
+        data.usersToShow,
+        typeof data.usersToShow,
+        data.offset,
+        typeof data.offset,
+      );
+      update(data);
     });
   };
 
-  render(update, count, offset, onlyFriends) {
+  render(update, data) {
     console.log('NEXT BUTTON UPDATED');
     const html = this.getHTML();
     this.parent.insertAdjacentHTML('beforeend', html);
-    this.PaginationOnClick(update, count, offset, onlyFriends);
+    this.PaginationOnClick(update, data);
   }
 }

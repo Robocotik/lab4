@@ -8,6 +8,7 @@ import {PersonPage} from '../person/index.js';
 import {Dropdown} from '../../components/Dropdown/index.js';
 import BurgerMenu from '../../src/icons/BurgerMenu.js';
 import {CheckBox} from '../../components/CheckBox/index.js';
+
 export class MainPage {
   constructor(parent) {
     this.parent = parent;
@@ -18,6 +19,7 @@ export class MainPage {
       maxCountUsers: 20,
     };
   }
+
   get listRoot() {
     return document.getElementById('list-root');
   }
@@ -26,15 +28,8 @@ export class MainPage {
     return document.getElementById('list-root-col2');
   }
 
-  get pageRoot() {
-    return document.getElementById('main-page');
-  }
-
   get blurRoot() {
     return document.getElementById('blur');
-  }
-  get mainRoot() {
-    return document.getElementById('root');
   }
   get dropdownRoot() {
     return document.getElementById('dropdown');
@@ -46,21 +41,26 @@ export class MainPage {
   renderData(items) {
     items.forEach((item, index) => {
       const personCard = new PersonCard(
-        index % 2 == 1 ? this.listRoot : this.listRootCol2,
+        index % 2 === 1 ? this.listRoot : this.listRootCol2,
       );
       personCard.render(item);
     });
     this.addOnClick();
   }
 
-  getData = (count, offset, onlyFriends) => {
+  getData = () => {
     ajax.get(
-      urls.getGroupMembers(groupId, count, offset, onlyFriends),
-      data => {
+      urls.getGroupMembers(
+        groupId,
+        this.data.usersToShow,
+        this.data.offset,
+        this.data.onlyFriends,
+      ),
+      dataSended => {
         this.listRoot.innerHTML = '';
         this.listRootCol2.innerHTML = '';
-        this.maxCountUsers = data.response.count;
-        this.renderData(data.response.items);
+        this.data.maxCountUsers = dataSended.response.count; // Обновляем maxCountUsers в объекте data
+        this.renderData(dataSended.response.items);
       },
     );
   };
@@ -78,32 +78,16 @@ export class MainPage {
     });
   };
 
-  updateDynamicContainer(callback, count, offset, onlyFriends, maxCount) {
+  updateDynamicContainer(callback) {
     // Очищаем старое содержимое контейнера
     this.dropdownRoot.innerHTML = '';
     this.checkRoot.innerHTML = '';
     // Создаем новые компоненты с новыми данными
-    const checkBox = new CheckBox(
-      this.checkRoot,
-      callback,
-      count,
-      offset,
-      onlyFriends,
-      maxCount,
-      this.updateDynamicContainer,
-    );
-    const dropdown = new Dropdown(
-      this.dropdownRoot,
-      callback,
-      
-      
-    );
-
-    // Обновляем данные в компонентах, если это необходимо
+    const checkBox = new CheckBox(this.checkRoot, callback, this.data);
+    const dropdown = new Dropdown(this.dropdownRoot, callback, this.data);
     // Рендерим новые компоненты
     checkBox.render();
     dropdown.render();
-    alert('Контейнер обновлен');
   }
 
   getMenu = () => {
@@ -111,7 +95,6 @@ export class MainPage {
     <button class="burger-menu btn bg-transparent border-0 btn-primary position-absolute z-2" type="button" data-bs-toggle="offcanvas" style='top: 1rem; right: 1rem;' data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
     ${BurgerMenu()}
     </button>
-
     <div class="offcanvas offcanvas-end" style= 'width: 15rem;' tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
       <div class="offcanvas-header">
         <h5 id="offcanvasRightLabel"> </h5>
@@ -146,7 +129,6 @@ export class MainPage {
           </div>
         </div>
       </div>
-            
         `;
   }
 
@@ -155,13 +137,7 @@ export class MainPage {
     const html = this.getHTML();
     this.parent.insertAdjacentHTML('beforeend', html);
     const groupCard = new GroupCard(this.blurRoot);
-    this.updateDynamicContainer(
-      this.getData,
-      this.usersToShow,
-      this.offset,
-      this.onlyFriends,
-      this.maxCountUsers,
-    );
+    this.updateDynamicContainer(this.getData);
     groupCard.render(DefaultUsecaase);
   }
 }

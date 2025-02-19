@@ -1,28 +1,25 @@
 export class CheckBox {
-  constructor(parent, callback, count, offset, selected, maxCount, updateContainer) {
+  constructor(parent, callback, data) {
     this.parent = parent;
-    this.selected = selected;
     this.callback = callback;
-    this.count = count;
-    this.offset = offset;
-    this.maxCount = maxCount;
-    this.updateContainer = updateContainer;
+    this.data = data;
   }
 
   addOnClick = () => {
     const check = document.querySelector('#flexCheckChecked');
     check.addEventListener('click', () => {
-      this.selected = !this.selected;
-      this.callback(this.count, this.offset, this.selected? 'friends': '');
-      this.updateContainer(this.callback, this.count, this.offset, this.selected);
-      console.log(this.count, this.offset ,this.selected);
-    })
-  } 
+      this.data.onlyFriends = !this.data.onlyFriends; // Переключаем значение
+      this.callback(); // Вызываем callback для обновления данных
+      console.log(this.data);
+    });
+  };
 
   getHTML = () => {
     return `
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value=${this.selected} id="flexCheckChecked" checked>
+            <input class="form-check-input" type="checkbox" value=${
+              this.data.onlyFriends
+            } id="flexCheckChecked" ${this.data.onlyFriends ? 'checked' : ''}>
             <label class="form-check-label" for="flexCheckChecked">
                 Отобразить только друзей
             </label>
@@ -31,9 +28,9 @@ export class CheckBox {
   };
 
   render() {
-    console.log('CHECKBOX UPDATED');
-    const html = this.getHTML();
-    this.parent.insertAdjacentHTML('beforeend', html);
+    console.log('CHECKBOX UPDATED', this.parent);
+    this.parent.innerHTML = '';
+    this.parent.insertAdjacentHTML('beforeend', this.getHTML());
     this.addOnClick();
   }
 }
