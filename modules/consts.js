@@ -1,4 +1,4 @@
 export const groupId = 59336460;
 export const accessToken =
-  'vk1.a._n0or69AiG0p5LMWxINzKgyGCJRpH_WjIi_s8o6L3vInofjJqMX8g9Dury0KOHoE2vwE0Yg8APzaGFmILUQHiwHNbZeKAw5NGylhj-2Yb4lCjL_yNl_uHq8Y6kDALPlC5h8rRmyfZCO8yYaqHgN9snI8HFQOeJBVqq1HI3TlFwY-R6XZNgJ2zSo4Wz3piqsy';
+  'vk1.a.qVTHobXD7jh7FGcoSSDu56ZjA_clj6V5K5CwhwQCoa9pyumWtnMIRbmCyDz_JSfUTE9ezn58JDC3scDsVmRQVZZ7J3KXAJIsCNgMbFmBeOR9jK_gcU50cMZ8fzwQgDx71gR1KVaPM9pgCi7Tg1Hke-6wxMd3GJT66tG0sgrLfhziRcNjq6fQ74gux5jRXc9j';
 export const version = '5.199';

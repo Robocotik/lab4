@@ -11,6 +11,7 @@ class Urls {
   }
 
   getGroupMembers(groupId, count, offset, filter) {
+    console.log('ЗАПРОС С ДАННЫМИ', count, offset, filter)
     return `${this.url}/groups.getMembers?group_id=${groupId}&offset=${offset}${filter? `&filter=friends`:''}&fields=photo_400_orig,online&count=${count}&${this.commonInfo}`;
   }
 }

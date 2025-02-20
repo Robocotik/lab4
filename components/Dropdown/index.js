@@ -15,6 +15,7 @@ export class Dropdown {
       const items = this.parent.querySelectorAll('.dropdown-item');
       items.forEach(item => item.classList.remove('active'));
       e.target.classList.add('active');
+      this.data.offset = 0;
       this.data.usersToShow = Number(e.target.textContent);
       this.callback(this.data); // Вызываем callback для обновления данных
       this.render();

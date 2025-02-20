@@ -11,17 +11,16 @@ export class PrevButton {
     const prev = document.querySelector('#btn_prev');
     prev.addEventListener('click', () => {
       console.log('preeev', data.offset, data.usersToShow);
-      data.offset =
-        data.offset - data.usersToShow >= 0
-          ? data.offset - data.usersToShow
-          : 0;
+      if (data.offset - data.usersToShow >= 0) {
+        data.offset = data.offset - data.usersToShow;
+        update(data);
+      }
       console.log(
         data.usersToShow,
         typeof data.usersToShow,
         data.offset,
         typeof data.offset,
       );
-      update(data);
     });
   };
 

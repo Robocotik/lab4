@@ -11,10 +11,10 @@ export class NextButton {
   PaginationOnClick = (update, data) => {
     const next = document.querySelector('#btn_next');
     next.addEventListener('click', () => {
-      data.offset =
-        data.maxCountUsers - data.offset - data.usersToShow >= 0
-          ? data.offset + data.usersToShow
-          : data.offset;
+      if (data.maxCountUsers - data.offset - data.usersToShow >= 0) {
+        data.offset = data.offset + data.usersToShow;
+        update(data);
+      }
       console.log(
         'locally, ',
         data.usersToShow,
@@ -22,7 +22,6 @@ export class NextButton {
         data.offset,
         typeof data.offset,
       );
-      update(data);
     });
   };
 

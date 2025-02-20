@@ -9,6 +9,7 @@ export class CheckBox {
     const check = document.querySelector('#flexCheckChecked');
     check.addEventListener('click', () => {
       this.data.onlyFriends = !this.data.onlyFriends; // Переключаем значение
+      this.data.offset = 0;
       this.callback(); // Вызываем callback для обновления данных
       console.log(this.data);
     });
@@ -20,7 +21,7 @@ export class CheckBox {
             <input class="form-check-input" type="checkbox" value=${
               this.data.onlyFriends
             } id="flexCheckChecked" ${this.data.onlyFriends ? 'checked' : ''}>
-            <label class="form-check-label" for="flexCheckChecked">
+            <label class="form-check-label text-black" for="flexCheckChecked">
                 Отобразить только друзей
             </label>
         </div>

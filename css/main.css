@@ -6,6 +6,29 @@
   font-style: italic;
 }
 
+body::-webkit-scrollbar{
+  display: none;
+}
+
+:root {
+  --background-bg-color: #ffffff;
+  --text-color: #000000;
+  --box-shadow: rgba(0,0,0,0);
+}
+:root[theme='dark'] {
+  --background-bg-color: #000000;
+  --text-color: #ffffff;
+  --box-shadow: #ffffff;
+}
+
+.adaptive-text{
+  color: var(--text-color) !important;
+}
+
+.adaptive-shadow{
+  box-shadow: 0px 0px 10px var(--box-shadow) !important;
+}
+
 .circle-underline {
   text-decoration: gray wavy underline;
 }
@@ -122,4 +145,15 @@
 .burger-item:hover {
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.416);
   scale: 1.05;
+}
+
+body {
+  transition: background 1s ease-out;
+  background: var(--background-bg-color) !important;
+}
+
+.boxed-text {
+  border: 2px solid currentColor;
+  padding: 15px;
+  margin-top: 20px;
 }
