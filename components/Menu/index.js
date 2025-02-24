@@ -1,6 +1,5 @@
 import {MainPage} from '../../pages/main/index.js';
 import BurgerMenu from '../../src/icons/BurgerMenu.js';
-import {VKAuthorize} from '../VKAuthorize/index.js';
 
 export class Menu {
   AddOnClick = () => {
@@ -31,7 +30,8 @@ export class Menu {
           <li id='burger-item-2' class='burger-item mx-auto rounded-2'><button class = 'bg-transparent border-0'>Моя страница</button></li>
           <li id='burger-item-3' class='burger-item mx-auto rounded-2'><button class = 'bg-transparent border-0'>Люди рядом</button></li>
           <li id='burger-item-4' class='burger-item mx-auto rounded-2'><button class = 'bg-transparent border-0'>Настройки</button></li>
-        </ul>
+          <li id='VkIdSdkOneTap' class='burger-item mx-auto rounded-2'> </li>
+          </ul>
       </div>
     </div>
     `;
@@ -51,8 +51,6 @@ export class Menu {
     ${BurgerMenu(isLight)}
     </button>`,
     );
-    const VK = new VKAuthorize(this.getUl());
-    VK.render();
 
     this.AddOnClick();
   }

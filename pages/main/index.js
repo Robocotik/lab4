@@ -9,6 +9,8 @@ import {Dropdown} from '../../components/Dropdown/index.js';
 import {CheckBox} from '../../components/CheckBox/index.js';
 import {Menu} from '../../components/Menu/index.js';
 import {LightSwitch} from '../../components/lightSwitch/index.js';
+import {CheckSex} from '../../components/CheckSex/index.js';
+
 export class MainPage {
   constructor(parent) {
     this.parent = parent;
@@ -17,6 +19,7 @@ export class MainPage {
       offset: 0,
       onlyFriends: true,
       maxCountUsers: 20,
+      onlyMales: false,
     };
   }
 
@@ -37,13 +40,19 @@ export class MainPage {
   get checkRoot() {
     return document.getElementById('checkbox');
   }
+  get sexRoot() {
+    return document.getElementById('checksex');
+  }
 
   renderData(items) {
     items.forEach((item, index) => {
-      const personCard = new PersonCard(
-        index % 2 === 1 ? this.listRoot : this.listRootCol2,
-      );
-      personCard.render(item);
+      console.log('Я СРАВНИВАЮ', item.sex - 1, this.data.onlyMales);
+      if (item.sex - 1 == this.data.onlyMales) {
+        const personCard = new PersonCard(
+          index % 2 === 1 ? this.listRoot : this.listRootCol2,
+        );
+        personCard.render(item);
+      }
     });
     this.addOnClick();
   }
@@ -60,6 +69,9 @@ export class MainPage {
         this.listRoot.innerHTML = '';
         this.listRootCol2.innerHTML = '';
         this.data.maxCountUsers = dataSended.response.count; // Обновляем maxCountUsers в объекте data
+
+        // this.returnOnlyMales(dataSended.response.items, this.data.onlyMales);
+        // console.log('В НУЖНОМ МЕСТЕ', dataSended.response.items);
         this.renderData(dataSended.response.items);
       },
     );
@@ -85,8 +97,10 @@ export class MainPage {
     // Создаем новые компоненты с новыми данными
     const checkBox = new CheckBox(this.checkRoot, callback, this.data);
     const dropdown = new Dropdown(this.dropdownRoot, callback, this.data);
+    const checksex = new CheckSex(this.sexRoot, callback, this.data);
     // Рендерим новые компоненты
     checkBox.render();
+    checksex.render();
     dropdown.render();
   }
 
@@ -102,6 +116,7 @@ export class MainPage {
           <div id='dynamic' class = 'd-flex flex-column gap-3 justify-content-start align-items-center' style='height: 3rem;'>
             <div id='dropdown' class = 'd-flex gap-3 justify-content-center align-items-center' > </div>
             <div id='checkbox'> </div>
+            <div id='checksex'> </div>
           </div>
           </div>
         </div>

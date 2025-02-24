@@ -28,7 +28,7 @@ export class PersonPage {
                 <div class = 'd-flex flex-column adaptive-shadow lh-base rounded-4 gap-2 border border-2' style='width: 32%; padding: 2rem;'>
                   <p class = 'fs-3 fw-bold text-center'>Краткая информация</p>
                   ${data.last_seen && `<p>${data.last_seen.time}</p>`}
-                  <p>Город: ${data.city.title ?? 'empty'} </p>
+                  <p>Город: ${data.city ?? 'empty'} </p>
                 </div>
                 <div class = 'd-flex flex-column adaptive-shadow lh-base justify-content-center align-items-center rounded-4 border-2 border' style = 'padding: 2rem; width: 63%; height: 20rem;'>   
                   <p class = 'fs-2 fw-bold'>Публикации</p>
